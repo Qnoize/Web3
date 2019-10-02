@@ -16,19 +16,18 @@ public class BankClientDAO {
 
     public List<BankClient> getAllBankClient() throws SQLException {
         List<BankClient> list = new ArrayList<>();
-        Statement stmt = connection.createStatement();
-        stmt.execute("select * from bank_client");
-        ResultSet result = stmt.getResultSet();
-        while (result.next()) {
-            long id = result.getLong("id");
-            String name = result.getNString("name");
-            String pass = result.getNString("password");
-            long money = result.getLong("money");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from bank_client");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            long id = resultSet.getLong("id");
+            String name = resultSet.getString("name");
+            String pass = resultSet.getString("password");
+            long money = resultSet.getLong("money");
             BankClient client = new BankClient(id, name, pass, money);
             list.add(client);
         }
-        result.close();
-        stmt.close();
+        resultSet.close();
+        preparedStatement.close();
         return list;
     }
 
