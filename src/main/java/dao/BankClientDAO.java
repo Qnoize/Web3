@@ -45,7 +45,7 @@ public class BankClientDAO {
 
     public void updateClientsMoney(String name, String password, Long transactValue) throws SQLException {
         if (validateClient(name, password)) {
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from bank_client where name=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from bank_client where name= ?");
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -61,7 +61,8 @@ public class BankClientDAO {
     }
 
     public BankClient getClientById(long id) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bank_client WHERE id='" + id + "'");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from bank_client where id= ?");
+        preparedStatement.setLong(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         String name = resultSet.getString("name");
@@ -84,7 +85,8 @@ public class BankClientDAO {
     }
 
     public long getClientIdByName(String name) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bank_client WHERE name='" + name + "'");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from bank_client where name= ?");
+        preparedStatement.setString(1, name);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         Long id = resultSet.getLong("id");
@@ -94,7 +96,8 @@ public class BankClientDAO {
     }
 
     public BankClient getClientByName(String name) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bank_client WHERE name='" + name + "'");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from bank_client where name= ?");
+        preparedStatement.setString(1, name);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         String names = resultSet.getNString(2);
